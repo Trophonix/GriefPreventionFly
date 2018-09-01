@@ -48,8 +48,9 @@ public class GPFly extends JavaPlugin implements Listener {
     if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
       return;
     }
+    if (event.getPlayer().hasPermission("gpfly.bypas")) return;
     Claim claim = GriefPrevention.instance.dataStore.getClaimAt(event.getTo(), true, null);
-    if (event.getPlayer().getAllowFlight() && (claim == null || !claim.getOwnerName().equals(event.getPlayer().getName())) && !event.getPlayer().hasPermission("gpfly.bypass")) {
+    if (event.getPlayer().getAllowFlight() && (claim == null || !claim.getOwnerName().equals(event.getPlayer().getName()))) {
       event.getPlayer().setAllowFlight(false);
       event.getPlayer().setFlying(false);
       event.getPlayer().sendMessage(configFlightDisabled);
