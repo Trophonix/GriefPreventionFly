@@ -1,0 +1,9 @@
+name: "GPFly"
+version: "${project.version}"
+author: "Trophonix"
+main: "com.trophonix.gpfly.GPFly"
+api-version: "1.13"
+depend: [Essentials, GriefPrevention]
+permissions:
+  gpfly.bypass:
+    description: "Bypass flight restrictions"
