@@ -6,7 +6,7 @@
 
     <groupId>com.trophonix</groupId>
     <artifactId>gpfly</artifactId>
-    <version>1.00</version>
+    <version>1.1</version>
 
     <repositories>
         <repository>
@@ -27,13 +27,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
+            <version>1.14-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.ess3</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.15.0</version>
+            <version>2.16.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -1,2 +1,19 @@
+#
+# GPFly by Trophonix
+# - - - - - - - - -
+# otherTrustedClaims: true/false - Whether to allow flight in trusted claims not owned by the player.
+# freeWorld: true/false - Whether to allow flight in the unclaimed world.
+#                         If true, player will be disallowed in other people's claims but not in wilderness.
+# gamemodeBypass: Allow bypassing if the player is in creative or spectator mode.
+# - - - - - - - - -
+# notAllowed: Message to send when player attempts to enable flight outside of claim.
+# flightDisabled: Message to send when player attempts to exit their claim with flight enabled.
+#
+
+otherTrustedClaims: true
+freeWorld: false
+
+gamemodeBypass: true
+
 notAllowed: "&4(!) &cYou can't use flight outside of your claims."
-flightDisabled: "&4(!) &cYou left your claim. Flight disabled."
+flightDisabled: "&4(!) &cYou need to disable flight to leave your claim!"

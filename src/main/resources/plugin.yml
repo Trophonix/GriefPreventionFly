@@ -4,6 +4,10 @@ author: "Trophonix"
 main: "com.trophonix.gpfly.GPFly"
 api-version: "1.13"
 depend: [Essentials, GriefPrevention]
+commands:
+  gpfly:
+    description: "Admin config commands"
+    permission: "gpfly.admin"
 permissions:
   gpfly.bypass:
     description: "Bypass flight restrictions"
