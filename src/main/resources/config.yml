@@ -16,4 +16,4 @@ freeWorld: false
 gamemodeBypass: true
 
 notAllowed: "&4(!) &cYou can't use flight outside of your claims."
-flightDisabled: "&4(!) &cYou need to disable flight to leave your claim!"
+flightDisabled: "&4(!) &cYou need to disable flight to go there!"
