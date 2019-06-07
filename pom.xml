@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.trophonix</groupId>
-    <artifactId>gpfly</artifactId>
-    <version>1.1</version>
+    <artifactId>ClaimFly</artifactId>
+    <version>1.2.0</version>
 
     <repositories>
         <repository>
@@ -25,9 +25,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -40,6 +46,21 @@
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
             <version>16.9.alpha</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.Zrips.CMI</groupId>
+            <artifactId>CMI</artifactId>
+            <version>7.6.2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CMI-API.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.zrips.residence</groupId>
+            <artifactId>Residence</artifactId>
+            <version>4.8.6.4</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Residence.jar</systemPath>
         </dependency>
     </dependencies>
 

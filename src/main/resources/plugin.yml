@@ -1,13 +1,19 @@
-name: "GPFly"
+name: "ClaimFly"
 version: "${project.version}"
 author: "Trophonix"
-main: "com.trophonix.gpfly.GPFly"
+main: "com.trophonix.claimfly.ClaimFly"
 api-version: "1.13"
-depend: [Essentials, GriefPrevention]
+softdepend: [Essentials, CMI, GriefPrevention, Residence]
 commands:
-  gpfly:
+  claimfly:
     description: "Admin config commands"
-    permission: "gpfly.admin"
+    permission: "claimfly.admin"
 permissions:
-  gpfly.bypass:
+  claimfly.admin:
+    description: "ClaimFly admin command"
+  claimfly.bypass:
     description: "Bypass flight restrictions"
+  gpfly.admin:
+    children: [claimfly.admin]
+  gpfly.bypass:
+    children: [claimfly.bypass]
