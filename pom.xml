@@ -6,7 +6,7 @@
 
     <groupId>com.trophonix</groupId>
     <artifactId>ClaimFly</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
 
     <repositories>
         <repository>
