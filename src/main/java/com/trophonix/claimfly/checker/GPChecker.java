@@ -23,9 +23,7 @@ public class GPChecker implements ClaimChecker {
   }
 
   @Override public boolean isInTrustedClaim(Player player, Location loc) {
-    Claim claim = getClaim(loc);
-    if (claim == null) return pl.isFreeWorld();
-    return claim.allowEdit(player) == null;
+    return GriefPrevention.instance.allowBuild(player, loc) == null;
   }
 
 }

@@ -4,7 +4,12 @@
 # otherTrustedClaims: true/false - Whether to allow flight in trusted claims not owned by the player.
 # freeWorld: true/false - Whether to allow flight in the unclaimed world.
 #                         If true, player will be disallowed in other people's claims but not in wilderness.
-# gamemodeBypass: Allow bypassing if the player is in creative or spectator mode.
+# drop: true/false. Drop the player out of the sky (no fall damage) instead of moving them back!
+# gamemodeBypass: true/false. Allow bypassing if the player is in creative or spectator mode.
+# onFlyCommand: true/false. Whether to listen for /fly and cancel that.
+#                           If you're not using Essentials this will just listen for
+#                           "/fly" so if there are aliases, it won't know they typed /fly.
+#                           They'll be stopped when they actually start flying.
 # - - - - - - - - -
 # notAllowed: Message to send when player attempts to enable flight outside of claim.
 # flightDisabled: Message to send when player attempts to exit their claim with flight enabled.
@@ -13,7 +18,9 @@
 otherTrustedClaims: true
 freeWorld: false
 
+drop: false
 gamemodeBypass: true
+onFlyCommand: true
 
 notAllowed: "&4(!) &cYou can't use flight outside of your claims."
 flightDisabled: "&4(!) &cYou need to disable flight to go there!"

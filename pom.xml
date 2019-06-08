@@ -6,7 +6,7 @@
 
     <groupId>com.trophonix</groupId>
     <artifactId>ClaimFly</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 
     <repositories>
         <repository>
@@ -37,23 +37,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.ess3</groupId>
-            <artifactId>EssentialsX</artifactId>
-            <version>2.16.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
             <version>16.9.alpha</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.Zrips.CMI</groupId>
-            <artifactId>CMI</artifactId>
-            <version>7.6.2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/CMI-API.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.zrips.residence</groupId>
@@ -61,6 +48,12 @@
             <version>4.8.6.4</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Residence.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.16.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

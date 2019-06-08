@@ -3,6 +3,8 @@ package com.trophonix.claimfly;
 import com.trophonix.claimfly.checker.ClaimChecker;
 import com.trophonix.claimfly.checker.GPChecker;
 import com.trophonix.claimfly.checker.ResidenceChecker;
+import com.trophonix.claimfly.listeners.EssentialsListener;
+import com.trophonix.claimfly.listeners.FlyCommandListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -22,19 +25,22 @@ public class ClaimFly extends JavaPlugin implements Listener {
 
   private boolean otherTrustedClaims;
   private boolean freeWorld;
+
+  private boolean drop;
   private boolean gamemodeBypass;
+  private boolean onFlyCommand;
 
   private String configNotAllowed;
   private String configFlightDisabled;
 
   private ClaimChecker checker;
+  private Listener flyListener;
 
   @Override
   public void onEnable() {
     getServer().getPluginManager().registerEvents(this, this);
-    if (!getDataFolder().exists()) {
-      saveDefaultConfig();
-    }
+    getConfig().options().copyDefaults(true);
+    saveConfig();
     load();
     if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention")) {
       checker = new GPChecker(this);
@@ -47,12 +53,25 @@ public class ClaimFly extends JavaPlugin implements Listener {
   }
 
   private void load() {
-    super.reloadConfig();
     otherTrustedClaims = getConfig().getBoolean("otherTrustedClaims", true);
     freeWorld = getConfig().getBoolean("freeWorld", false);
-    gamemodeBypass  = getConfig().getBoolean("gamemodeBypass", true);
+    drop = getConfig().getBoolean("drop", false);
+    gamemodeBypass = getConfig().getBoolean("gamemodeBypass", true);
+    onFlyCommand = getConfig().getBoolean("onFlyCommand", false);
     configNotAllowed = ChatColor.translateAlternateColorCodes('&', getConfig().getString("notAllowed"));
     configFlightDisabled = ChatColor.translateAlternateColorCodes('&', getConfig().getString("flightDisabled"));
+    if ((flyListener == null) == onFlyCommand) {
+      if (flyListener == null) {
+        if (getServer().getPluginManager().isPluginEnabled("Essentials")) {
+          flyListener = new EssentialsListener(this);
+        } else {
+          flyListener = new FlyCommandListener(this);
+        }
+      } else {
+        HandlerList.unregisterAll(flyListener);
+        flyListener = null;
+      }
+    }
   }
 
   @Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -68,7 +87,7 @@ public class ClaimFly extends JavaPlugin implements Listener {
     return true;
   }
 
-  private boolean canBypass(Player player) {
+  public boolean canBypass(Player player) {
     if ((gamemodeBypass && canFly(player.getGameMode()))) return true;
     if (player.hasPermission("claimfly.bypass")) return true;
     return false;
@@ -77,14 +96,19 @@ public class ClaimFly extends JavaPlugin implements Listener {
   @EventHandler
   public void onMove(PlayerMoveEvent event) {
     if (event.getTo() == null) return;
-    if (!event.getPlayer().isFlying()) return;
-    if (canBypass(event.getPlayer())) return;
+    Player player = event.getPlayer();
+    if (!player.isFlying()) return;
+    if (canBypass(player)) return;
     if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
       return;
     }
     if (!isAllowedToFly(event.getTo(), event.getPlayer())) {
-      event.setCancelled(true);
-      event.getPlayer().sendMessage(configFlightDisabled);
+      if (drop) {
+        player.setAllowFlight(false);
+        player.setFlying(false);
+        player.setFallDistance(0 - player.getLocation().getBlockY());
+      } else event.setCancelled(true);
+      player.sendMessage(configFlightDisabled);
     }
   }
 
