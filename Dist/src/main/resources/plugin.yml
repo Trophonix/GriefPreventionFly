@@ -1,0 +1,19 @@
+name: "ClaimFly"
+version: "${project.version}"
+author: "Trophonix"
+main: "com.trophonix.claimfly.ClaimFlyImpl"
+api-version: "1.13"
+softdepend: [Essentials, GriefPrevention, Residence, PlotSquared, PlayerPlot, WorldGuard]
+commands:
+  claimfly:
+    description: "Admin config commands"
+    permission: "claimfly.admin"
+permissions:
+  claimfly.admin:
+    description: "ClaimFly admin command"
+  claimfly.bypass:
+    description: "Bypass flight restrictions"
+  gpfly.admin:
+    children: [claimfly.admin]
+  gpfly.bypass:
+    children: [claimfly.bypass]
