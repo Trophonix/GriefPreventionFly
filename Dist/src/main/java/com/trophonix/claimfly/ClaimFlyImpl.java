@@ -29,6 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
 
   private boolean otherTrustedClaims;
+  private boolean adminClaims;
   private boolean freeWorld;
 
   private boolean drop;
@@ -86,6 +87,7 @@ public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
 
   private void load() {
     otherTrustedClaims = getConfig().getBoolean("otherTrustedClaims", true);
+    adminClaims = getConfig().getBoolean("adminClaims", true);
     freeWorld = getConfig().getBoolean("freeWorld", false);
     drop = getConfig().getBoolean("drop", false);
     gamemodeBypass = getConfig().getBoolean("gamemodeBypass", true);

@@ -2,6 +2,7 @@
 # Claim Fly by Trophonix
 # - - - - - - - - -
 # otherTrustedClaims: true/false - Whether to allow flight in trusted claims not owned by the player.
+# adminClaims: true/false - Whether to allow flight in admin claims (GriefPrevention)
 # freeWorld: true/false - Whether to allow flight in the unclaimed world.
 #                         If true, player will be disallowed in other people's claims but not in wilderness.
 # drop: true/false. Drop the player out of the sky (no fall damage) instead of moving them back!
@@ -16,6 +17,7 @@
 #
 
 otherTrustedClaims: true
+adminClaims: true
 freeWorld: false
 
 drop: false
