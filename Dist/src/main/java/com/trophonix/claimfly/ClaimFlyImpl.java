@@ -25,8 +25,13 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
+
+  private boolean permissionRequired;
 
   private boolean otherTrustedClaims;
   private boolean adminClaims;
@@ -39,7 +44,7 @@ public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
   private String configNotAllowed;
   private String configFlightDisabled;
 
-  private ClaimChecker checker;
+  private List<ClaimChecker> checkers = new ArrayList<>();
   private Listener flyListener;
 
   @Override
@@ -48,44 +53,56 @@ public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
     getConfig().options().copyDefaults(true);
     saveConfig();
     load();
+
     if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention")) {
       getLogger().info("Hooking into GriefPrevention.");
-      checker = new GPChecker(this);
-    } else if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
+      checkers.add(new GPChecker(this));
+    }
+
+    if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
       getLogger().info("Hooking into Residence.");
-      checker = new ResidenceChecker(this);
-    } else if (Bukkit.getPluginManager().isPluginEnabled("PlayerPlot")) {
+      checkers.add(new ResidenceChecker(this));
+    }
+
+    if (Bukkit.getPluginManager().isPluginEnabled("PlayerPlot")) {
       getLogger().info("Hooking into PlayerPlot.");
-      checker = new PlayerPlotChecker(this);
-    } else if (Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
+      checkers.add(new PlayerPlotChecker(this));
+    }
+
+    if (Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
       try {
         Class.forName("com.intellectualcrafters.plot.object.Location");
         getLogger().info("Hooking into Legacy Plotsquared.");
-        checker = new LegacyPSChecker(this);
+        checkers.add(new LegacyPSChecker(this));
       } catch (Exception ignored) {
         getLogger().info("Hooking into Plotsquared.");
-        checker = new NewPSChecker(this);
+        checkers.add(new NewPSChecker(this));
       }
-    } else if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
+    }
+
+    if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
       Plugin worldGuard = Bukkit.getPluginManager().getPlugin("WorldGuard");
       String version = worldGuard.getDescription().getVersion();
       // if legacy, assume one of the latest versions.
       if (version.startsWith("6.1") || version.startsWith("6.2")) {
         getLogger().info("Hooking into Legacy Worldgaurd.");
-        checker = new LegacyWGChecker(this);
+        checkers.add(new LegacyWGChecker(this));
       }
       // else, assume new worldguard
       else {
         getLogger().info("Hooking into Worldguard.");
-        checker = new NewWGChecker(this);
+        checkers.add(new NewWGChecker(this));
       }
-    } else {
+    }
+
+    if (checkers.isEmpty()) {
       getLogger().warning("No claim plugin found. Supported: WorldGuard, GriefPrevention, Residence, PlotSquared, PlayerPlot.");
       getServer().getPluginManager().disablePlugin(this);
     }
   }
 
   private void load() {
+    permissionRequired = getConfig().getBoolean("permissionRequired", false);
     otherTrustedClaims = getConfig().getBoolean("otherTrustedClaims", true);
     adminClaims = getConfig().getBoolean("adminClaims", true);
     freeWorld = getConfig().getBoolean("freeWorld", false);
@@ -136,6 +153,7 @@ public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
     if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
       return;
     }
+
     if (!isAllowedToFly(event.getTo(), event.getPlayer())) {
       if (drop) {
         player.setAllowFlight(false);
@@ -157,8 +175,20 @@ public class ClaimFlyImpl extends JavaPlugin implements ClaimFly, Listener {
   }
 
   public boolean isAllowedToFly(Location to, Player player) {
-    return (otherTrustedClaims && checker.isInTrustedClaim(player, to)) ||
-               checker.isInOwnClaim(player, to);
+    if (permissionRequired && !player.hasPermission("claimfly.fly")) return false;
+    for (int i = 0; i < checkers.size(); i++) {
+      ClaimChecker checker = checkers.get(i);
+      if (otherTrustedClaims) {
+        if (checker.isInTrustedClaim(player, to)) {
+          return true;
+        }
+      } else {
+        if (checker.isInOwnClaim(player, to)) {
+          return true;
+        }
+      }
+    }
+    return isFreeWorld();
   }
 
   public boolean isAllowedToFly(Player player) {

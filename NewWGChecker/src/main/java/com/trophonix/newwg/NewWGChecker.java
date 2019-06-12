@@ -23,13 +23,12 @@ public class NewWGChecker implements ClaimChecker {
     if (container == null || (manager = container.get(BukkitAdapter.adapt(loc.getWorld()))) == null) {
       return null;
     }
-    return manager.getApplicableRegions(
-        BukkitAdapter.asBlockVector(loc));
+    return manager.getApplicableRegions(BukkitAdapter.asBlockVector(loc));
   }
 
   @Override public boolean isInOwnClaim(Player player, Location loc) {
     ApplicableRegionSet regions = getApplicableRegions(loc);
-    if (regions == null || regions.getRegions().isEmpty()) return pl.isFreeWorld();
+    if (regions == null || regions.getRegions().isEmpty()) return false;
     for (ProtectedRegion rg : regions) {
       if (rg.getOwners().contains(player.getUniqueId())) {
         return true;
@@ -40,7 +39,7 @@ public class NewWGChecker implements ClaimChecker {
 
   @Override public boolean isInTrustedClaim(Player player, Location loc) {
     ApplicableRegionSet regions = getApplicableRegions(loc);
-    if (regions == null || regions.getRegions().isEmpty()) return pl.isFreeWorld();
+    if (regions == null || regions.getRegions().isEmpty()) return false;
     for (ProtectedRegion rg : regions) {
       if (rg.getMembers().contains(player.getUniqueId())) {
         return true;

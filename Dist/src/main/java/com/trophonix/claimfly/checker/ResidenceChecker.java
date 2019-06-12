@@ -22,7 +22,7 @@ public class ResidenceChecker implements ClaimChecker {
 
   @Override public boolean isInOwnClaim(Player player, Location loc) {
     ClaimedResidence res = getResidence(loc);
-    if (res == null) return pl.isFreeWorld();
+    if (res == null) return false;
     if (res.isOwner(player)) return true;
     ResidencePlayer resPlayer = Residence.getInstance().getPlayerManager().getResidencePlayer(player);
     return resPlayer.getGroup() != null && resPlayer.getGroup().equals(res.getOwnerGroup());
@@ -30,7 +30,7 @@ public class ResidenceChecker implements ClaimChecker {
 
   @Override public boolean isInTrustedClaim(Player player, Location loc) {
     ClaimedResidence res = getResidence(loc);
-    if (res == null) return pl.isFreeWorld();
+    if (res == null) return false;
     return res.getPermissions().playerHas(player, Flags.place, false);
   }
 }

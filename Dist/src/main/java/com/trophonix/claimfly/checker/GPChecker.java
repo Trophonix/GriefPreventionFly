@@ -19,14 +19,14 @@ public class GPChecker implements ClaimChecker {
 
   @Override public boolean isInOwnClaim(Player player, Location loc) {
     Claim claim = getClaim(loc);
-    if (claim == null) return pl.isFreeWorld();
+    if (claim == null) return false;
     if (claim.isAdminClaim()) return pl.isAdminClaims();
     else return player.getUniqueId().equals(claim.ownerID);
   }
 
   @Override public boolean isInTrustedClaim(Player player, Location loc) {
     Claim claim = getClaim(loc);
-    if (claim == null) return pl.isFreeWorld();
+    if (claim == null) return false;
     if (claim.isAdminClaim()) return pl.isAdminClaims();
     else return claim.allowContainers(player) == null;
   }

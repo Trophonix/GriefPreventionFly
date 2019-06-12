@@ -7,7 +7,6 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.trophonix.claimfly.api.ClaimChecker;
 import com.trophonix.claimfly.api.ClaimFly;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -19,14 +18,14 @@ public class LegacyPSChecker implements ClaimChecker {
   @Override public boolean isInOwnClaim(Player player, org.bukkit.Location loc) {
     PlotPlayer pp = PlotPlayer.wrap(player);
     Plot plot = pp.getCurrentPlot();
-    if (plot == null) return pl.isFreeWorld();
+    if (plot == null) return false;
     return plot.isOwner(player.getUniqueId());
   }
 
   @Override public boolean isInTrustedClaim(Player player, org.bukkit.Location loc) {
     PlotPlayer pp = PlotPlayer.wrap(player);
     Plot plot = pp.getCurrentPlot();
-    if (plot == null) return pl.isFreeWorld();
+    if (plot == null) return false;
     return plot.isAdded(player.getUniqueId());
   }
 

@@ -17,7 +17,7 @@ public class LegacyWGChecker implements ClaimChecker {
 
   @Override public boolean isInOwnClaim(Player player, Location loc) {
     ApplicableRegionSet regions = WorldGuardPlugin.inst().getRegionManager(player.getWorld()).getApplicableRegions(loc);
-    if (regions.getRegions().isEmpty()) return pl.isFreeWorld();
+    if (regions.getRegions().isEmpty()) return false;
     LocalPlayer lp = WorldGuardPlugin.inst().wrapPlayer(player);
     for (ProtectedRegion rg : regions) {
       if (rg.isOwner(lp)) {
@@ -29,7 +29,7 @@ public class LegacyWGChecker implements ClaimChecker {
 
   @Override public boolean isInTrustedClaim(Player player, Location loc) {
     ApplicableRegionSet regions = WorldGuardPlugin.inst().getRegionManager(player.getWorld()).getApplicableRegions(loc);
-    if (regions.getRegions().isEmpty()) return pl.isFreeWorld();
+    if (regions.getRegions().isEmpty()) return false;
     LocalPlayer lp = WorldGuardPlugin.inst().wrapPlayer(player);
     for (ProtectedRegion rg : regions) {
       if (rg.isMember(lp)) {

@@ -13,6 +13,8 @@ permissions:
     description: "ClaimFly admin command"
   claimfly.bypass:
     description: "Bypass flight restrictions"
+  claimfly.fly:
+    description: "Allows flight in claims if permission is required"
   gpfly.admin:
     children: [claimfly.admin]
   gpfly.bypass:

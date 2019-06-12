@@ -15,13 +15,13 @@ public class PlayerPlotChecker implements ClaimChecker {
 
   @Override public boolean isInOwnClaim(Player player, Location loc) {
     Plot plot = PlotManager.getInstance().getPlot(loc);
-    if (plot == null) return pl.isFreeWorld();
+    if (plot == null) return false;
     return player.getUniqueId().equals(plot.getOwnerID());
   }
 
   @Override public boolean isInTrustedClaim(Player player, Location loc) {
     Plot plot = PlotManager.getInstance().getPlot(loc);
-    if (plot == null) return pl.isFreeWorld();
+    if (plot == null) return false;
     return plot.getFriends().stream().anyMatch(
         fr -> player.getUniqueId().equals(fr.getUuid()));
   }
